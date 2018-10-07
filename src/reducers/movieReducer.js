@@ -5,11 +5,13 @@ const GENRE_API_CALL_FAILURE = "GENRE_API_CALL_FAILURE";
 const MOVIE_API_CALL_REQUEST = "MOVIE_API_CALL_REQUEST";
 const MOVIE_API_CALL_SUCCESS = "MOVIE_API_CALL_SUCCESS";
 const MOVIE_API_CALL_FAILURE = "MOVIE_API_CALL_FAILURE";
+const SET_GENRE_SELECTION = "SET_GENRE_SELECTION";
 
 // reducer with initial state
 const initialState = {
   genres: [],
-  movies: []
+  movies: [],
+  selectedGenres: []
 };
 
 const movieReducer = (state = initialState, action) => {
@@ -26,6 +28,8 @@ const movieReducer = (state = initialState, action) => {
       return { ...state, genres: action.genres };
     case GENRE_API_CALL_FAILURE:
       return { ...state, genreFetching: false, genres: [], error: action.error };
+    case SET_GENRE_SELECTION:
+      return { ...state, selectedGenres: action.genres}
     default:
       return state;
   }

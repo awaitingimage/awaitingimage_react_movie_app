@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './RootContainerStyles.css';
 import { connect } from "react-redux";
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import MovieTile from '../../components/MovieTile';
+import { Container, Row, Col } from 'reactstrap';
+import Select from 'react-select';
 
 class RootContainer extends Component {
 
@@ -10,14 +14,40 @@ class RootContainer extends Component {
     this.props.onRequestMovie();
   }
 
+  state = {
+    selectedOption: null,
+  }
+
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+  }
+
   render() {
-      const { error } = this.props;
+      const { genres, movies, error } = this.props;
+      const options = [
+        { label: 'Thing 1', value: 1},
+        { label: 'Thing 2', value: 2},
+      ];
+      const genreOptions = genres.map(genre => {
+        return({label: genre.name, value: genre.id})
+      });
+      
       return (
         <div className="App">
-          <header className="App-header">
-            <h1 className="App-title">Welcome to Movie DB</h1>
-          </header>
-  
+          <Select
+        value={this.state.selectedOption}
+        onChange={this.handleChange}
+        options={genreOptions}
+        isMulti
+      />
+          <Container>
+            <Row>
+          {movies.map((movie, index) => {
+              return (<Col xs="6" sm="4"><MovieTile movie={movie}/></Col>)
+          }
+          )}
+          </Row>
+          </Container>
           {error && <p style={{ color: "red" }}>Uh oh - something went wrong!</p>}
   
         </div>
@@ -27,14 +57,15 @@ class RootContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    
+    genres: state.movieReducer.genres,
+    movies: state.movieReducer.movies
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onRequestGenre: () => dispatch({ type: "GENRE_API_CALL_REQUEST" }),
-    onRequestMovie: () => dispatch({ type: "MOVIE_API_CALL_REQUEST" })
+    onRequestMovie: () => dispatch({ type: "MOVIE_API_CALL_REQUEST" }),
   };
 };
 
