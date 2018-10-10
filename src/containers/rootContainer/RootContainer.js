@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './RootContainerStyles.css';
 import { connect } from "react-redux";
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import MovieTile from '../../components/MovieTile';
 import { Container, Row, Col } from 'reactstrap';
 import Select from 'react-select';
@@ -24,10 +23,6 @@ class RootContainer extends Component {
 
   render() {
       const { genres, movies, error } = this.props;
-      const options = [
-        { label: 'Thing 1', value: 1},
-        { label: 'Thing 2', value: 2},
-      ];
       const genreOptions = genres.map(genre => {
         return({label: genre.name, value: genre.id})
       });
@@ -43,7 +38,7 @@ class RootContainer extends Component {
           <Container>
             <Row>
           {movies.map((movie, index) => {
-              return (<Col xs="6" sm="4"><MovieTile movie={movie}/></Col>)
+              return (<Col xs="6" sm="4" key={index}><MovieTile movie={movie}/></Col>)
           }
           )}
           </Row>
