@@ -4,21 +4,24 @@ import { connect } from "react-redux";
 import MovieTile from '../../components/MovieTile';
 import { Container, Row, Col } from 'reactstrap';
 import Select from 'react-select';
+import { fetchMovieGenres, fetchMovies, setMovieGenres } from '../../reducers/movieReducer';
 
 class RootContainer extends Component {
 
   constructor(props){
     super(props);
-    this.props.onRequestGenre();
-    this.props.onRequestMovie();
+    this.props.fetchMovieGenres();
+    this.props.fetchMovies();
   }
 
   state = {
-    selectedOption: null,
+    selectedOption: [],
   }
 
   handleChange = (selectedOption) => {
+    this.props.setMovieGenres(selectedOption);
     this.setState({ selectedOption });
+    
   }
 
   render() {
@@ -38,7 +41,10 @@ class RootContainer extends Component {
           <Container>
             <Row>
           {movies.map((movie, index) => {
-              return (<Col xs="6" sm="4" key={index}><MovieTile movie={movie}/></Col>)
+            const genreOverlap = movie.genre_ids.filter(value => this.props.selectedGenres.includes(value))
+            if (this.props.selectedGenres.length === 0 || genreOverlap.length > 0)
+              return (<Col xs="6" sm="4" key={index}><MovieTile movie={movie} genres={this.props.genres}/></Col>)
+            return null
           }
           )}
           </Row>
@@ -50,18 +56,18 @@ class RootContainer extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({movieReducer}) => {
   return {
-    genres: state.movieReducer.genres,
-    movies: state.movieReducer.movies
+    genres: movieReducer.genres,
+    movies: movieReducer.movies,
+    selectedGenres: movieReducer.selectedGenres
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onRequestGenre: () => dispatch({ type: "GENRE_API_CALL_REQUEST" }),
-    onRequestMovie: () => dispatch({ type: "MOVIE_API_CALL_REQUEST" }),
-  };
-};
+const mapDispatchToProps = {
+    fetchMovieGenres,
+    fetchMovies,
+    setMovieGenres
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);

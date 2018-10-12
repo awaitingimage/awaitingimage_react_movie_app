@@ -7,6 +7,41 @@ export const MOVIE_API_CALL_SUCCESS = "MOVIE_API_CALL_SUCCESS";
 export const MOVIE_API_CALL_FAILURE = "MOVIE_API_CALL_FAILURE";
 export const SET_GENRE_SELECTION = "SET_GENRE_SELECTION";
 
+// actions
+export const fetchMovieGenres = () => ({
+  type: GENRE_API_CALL_REQUEST
+})
+export const fetchMovieGenresSuccess = genres => ({
+  type: GENRE_API_CALL_SUCCESS,
+  genres
+})
+export const fetchMovieGenresFailure = error => ({
+  type: GENRE_API_CALL_FAILURE,
+  error
+})
+export const fetchMovies = () => ({
+  type: MOVIE_API_CALL_REQUEST
+})
+export const fetchMoviesSuccess = movies => {
+  movies.sort((a,b) => (a.popularity >= b.popularity) ? -1 : 1)
+  return ({
+  type: MOVIE_API_CALL_SUCCESS,
+  movies
+})
+}
+export const fetchMoviesFailure = error => ({
+  type: MOVIE_API_CALL_FAILURE,
+  error
+})
+export const setMovieGenres = genres => {
+  const genreIds = genres.map(genre => {
+    return genre.value
+  })
+  return ({
+  type: SET_GENRE_SELECTION,
+  genreIds
+})}
+
 // reducer with initial state
 const initialState = {
   genres: [],
@@ -29,7 +64,7 @@ const movieReducer = (state = initialState, action) => {
     case GENRE_API_CALL_FAILURE:
       return { ...state, genreFetching: false, genres: [], error: action.error };
     case SET_GENRE_SELECTION:
-      return { ...state, selectedGenres: action.genres}
+      return { ...state, selectedGenres: action.genreIds}
     default:
       return state;
   }

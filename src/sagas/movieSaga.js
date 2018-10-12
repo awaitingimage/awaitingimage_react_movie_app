@@ -8,11 +8,11 @@ import {
 } from '../constants';
 import {
   GENRE_API_CALL_REQUEST,
-  GENRE_API_CALL_SUCCESS,
-  GENRE_API_CALL_FAILURE,
   MOVIE_API_CALL_REQUEST,
-  MOVIE_API_CALL_SUCCESS,
-  MOVIE_API_CALL_FAILURE
+  fetchMovieGenresSuccess,
+  fetchMovieGenresFailure,
+  fetchMoviesSuccess,
+  fetchMoviesFailure
 } from '../reducers/movieReducer';
 
 export function* getMovieGenres() {
@@ -20,11 +20,11 @@ export function* getMovieGenres() {
     const response = yield axios({method: "get", baseURL: BASE_URL, url: API_GENRE_FETCH, params: {api_key: API_KEY} });
     const genres = response.data.genres;
     // dispatch a success action to the store with the new dog
-    yield put({ type: GENRE_API_CALL_SUCCESS, genres });
+    yield put(fetchMovieGenresSuccess(genres));
   
   } catch (error) {
     // dispatch a failure action to the store with the error
-    yield put({ type: GENRE_API_CALL_FAILURE, error });
+    yield put(fetchMovieGenresFailure(error));
   }
 }
 
@@ -33,11 +33,11 @@ export function* getMovies() {
     const response = yield axios({method: "get", baseURL: BASE_URL, url: API_MOVIES_FETCH, params: {api_key: API_KEY} });
     const movies = response.data.results;
     // dispatch a success action to the store with the new dog
-    yield put({ type: MOVIE_API_CALL_SUCCESS, movies });
+    yield put(fetchMoviesSuccess(movies));
   
   } catch (error) {
     // dispatch a failure action to the store with the error
-    yield put({ type: MOVIE_API_CALL_FAILURE, error });
+    yield put(fetchMoviesFailure(error));
   }
 }
 
