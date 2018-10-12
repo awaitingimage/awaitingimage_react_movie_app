@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import MovieTile from '../../components/MovieTile';
 import { Container, Row, Col } from 'reactstrap';
 import Select from 'react-select';
-import { fetchMovieGenres, fetchMovies, setMovieGenres } from '../../reducers/movieReducer';
+import { fetchMovieGenres, fetchMovies, setMovieGenres, setSelectedRating } from '../../reducers/movieReducer';
+import { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 class RootContainer extends Component {
 
@@ -21,11 +23,15 @@ class RootContainer extends Component {
   handleChange = (selectedOption) => {
     this.props.setMovieGenres(selectedOption);
     this.setState({ selectedOption });
-    
+  }
+
+  handleSliderChange = (rating) => {
+    console.log(rating)
+    this.props.setSelectedRating(rating)
   }
 
   render() {
-      const { genres, movies, error } = this.props;
+      const { genres, movies, selectedGenres, selectedRating} = this.props;
       const genreOptions = genres.map(genre => {
         return({label: genre.name, value: genre.id})
       });
@@ -33,24 +39,23 @@ class RootContainer extends Component {
       return (
         <div className="App">
           <Select
-        value={this.state.selectedOption}
-        onChange={this.handleChange}
-        options={genreOptions}
-        isMulti
-      />
+            value={this.state.selectedOption}
+            onChange={this.handleChange}
+            options={genreOptions}
+            isMulti
+          />
+          <Range min={0} max={10} step={.5} defaultValue={[3,10]} onChange={this.handleSliderChange}/>
           <Container>
             <Row>
-          {movies.map((movie, index) => {
-            const genreOverlap = movie.genre_ids.filter(value => this.props.selectedGenres.includes(value))
-            if (this.props.selectedGenres.length === 0 || genreOverlap.length > 0)
-              return (<Col xs="6" sm="4" key={index}><MovieTile movie={movie} genres={this.props.genres}/></Col>)
-            return null
-          }
-          )}
-          </Row>
+              {movies.map((movie, index) => {
+                const genreOverlap = movie.genre_ids.filter(value => selectedGenres.includes(value))
+                if ((selectedGenres.length === 0 || genreOverlap.length > 0) && (selectedRating[0] < movie.vote_average &&  selectedRating[1] > movie.vote_average) )
+                  return (<Col xs="6" sm="4" key={index}><MovieTile movie={movie} genres={genres}/></Col>)
+                return null
+              })}
+            </Row>
           </Container>
-          {error && <p style={{ color: "red" }}>Uh oh - something went wrong!</p>}
-  
+ 
         </div>
     );
   }
@@ -60,14 +65,16 @@ const mapStateToProps = ({movieReducer}) => {
   return {
     genres: movieReducer.genres,
     movies: movieReducer.movies,
-    selectedGenres: movieReducer.selectedGenres
+    selectedGenres: movieReducer.selectedGenres,
+    selectedRating: movieReducer.selectedRating
   };
 };
 
 const mapDispatchToProps = {
     fetchMovieGenres,
     fetchMovies,
-    setMovieGenres
+    setMovieGenres,
+    setSelectedRating
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);

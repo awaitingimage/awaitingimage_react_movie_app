@@ -6,6 +6,7 @@ export const MOVIE_API_CALL_REQUEST = "MOVIE_API_CALL_REQUEST";
 export const MOVIE_API_CALL_SUCCESS = "MOVIE_API_CALL_SUCCESS";
 export const MOVIE_API_CALL_FAILURE = "MOVIE_API_CALL_FAILURE";
 export const SET_GENRE_SELECTION = "SET_GENRE_SELECTION";
+export const SET_RATING_SELECTION = "SET_RATING_SELECTION";
 
 // actions
 export const fetchMovieGenres = () => ({
@@ -41,12 +42,17 @@ export const setMovieGenres = genres => {
   type: SET_GENRE_SELECTION,
   genreIds
 })}
+export const setSelectedRating = rating => ({
+  type: SET_RATING_SELECTION,
+  rating
+})
 
 // reducer with initial state
 const initialState = {
   genres: [],
   movies: [],
-  selectedGenres: []
+  selectedGenres: [],
+  selectedRating: [3,10]
 };
 
 const movieReducer = (state = initialState, action) => {
@@ -65,6 +71,8 @@ const movieReducer = (state = initialState, action) => {
       return { ...state, genreFetching: false, genres: [], error: action.error };
     case SET_GENRE_SELECTION:
       return { ...state, selectedGenres: action.genreIds}
+    case SET_RATING_SELECTION:
+      return { ...state, selectedRating: action.rating}
     default:
       return state;
   }
