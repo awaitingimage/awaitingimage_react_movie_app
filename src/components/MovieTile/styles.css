@@ -6,3 +6,7 @@
     width: 100%;
     height: auto;
 }
+
+.badge {
+    padding: 5px;
+}

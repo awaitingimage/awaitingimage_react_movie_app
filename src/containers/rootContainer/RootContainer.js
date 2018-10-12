@@ -26,7 +26,6 @@ class RootContainer extends Component {
   }
 
   handleSliderChange = (rating) => {
-    console.log(rating)
     this.props.setSelectedRating(rating)
   }
 
@@ -44,7 +43,9 @@ class RootContainer extends Component {
             options={genreOptions}
             isMulti
           />
-          <Range min={0} max={10} step={.5} defaultValue={[3,10]} onChange={this.handleSliderChange}/>
+          <div className={"range"}>
+            <Range min={0} max={10} step={.5} defaultValue={[3,10]} onChange={this.handleSliderChange}/>
+          </div>
           <Container>
             <Row>
               {movies.map((movie, index) => {

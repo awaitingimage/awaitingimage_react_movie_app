@@ -3,6 +3,7 @@ import './styles.css';
 import {
   BASE_IMAGE_URL
 } from '../../constants';
+import { Badge } from 'reactstrap';
 
 export default class MovieTile extends Component {
 
@@ -11,12 +12,15 @@ export default class MovieTile extends Component {
         return(
             <div className={"container"}>
                 <img src={BASE_IMAGE_URL+this.props.movie.poster_path} className={"image"} alt={this.props.movie.title} />
-                <p>{this.props.movie.title}</p>
-                <p>{this.props.movie.popularity}</p>
-                <p>{this.props.movie.vote_average}</p>
+                <p><b>{this.props.movie.title}</b></p>
+                <p>average rating: {this.props.movie.vote_average}</p>
                 {this.props.movie.genre_ids.map((genre, index) => {
-                    return (<p key={index}>{this.props.genres.find( genre2 => genre2.id === genre).name}</p>)
-                })
+                    try{
+                     return (<Badge color="info" pill>{this.props.genres.find( genre2 => genre2.id === genre).name}</Badge>)
+                    } catch {
+                        return null
+                    }
+                 })
                 }
             </div>
         )
