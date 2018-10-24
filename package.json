@@ -8,6 +8,7 @@
     "rc-slider": "^8.6.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-lazy-load-image-component": "^1.1.5",
     "react-multiselect-checkboxes": "0.0.17",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
