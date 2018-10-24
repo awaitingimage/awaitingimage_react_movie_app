@@ -4,12 +4,12 @@
   "description": "Example React app using Create-React-App, Redux, Redux-Sagas and PWA",
   "icons": [
     {
-      "src": "launcher-icon-192.png",
+      "src": "moviedb-launcher-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "launcher-icon-512.png",
+      "src": "moviedb-launcher-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
