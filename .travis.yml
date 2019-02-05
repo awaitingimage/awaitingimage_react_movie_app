@@ -1,16 +1,23 @@
 language: node_js
 node_js:
 - stable
-cache:
-  directories:
-  - node_modules
-script:
-- npm test
-- npm run build
 branches:
   only:
   - master
-deploy:
-  provider: firebase
-  token:
-    secure: "GByJ88EbaX5zWWvYSyijrlf7ymfs+IAoNuZlFn0t4rhRrbgjKc6YEzLKcwzFe80VzjO2KzLvKqxPqpbEEXLmLPnP/K0Tj/Tr8AmaJo1LK2+pXpaOkawreq/xqbA3X1ULr+tO/igZySX89F+hMvNl1g3HzFRnGCTO2kiBwJ+d0HEWRZFoP3NozOOvHM27yzV3e3QrDJhTx6SFSSyMZiFsRRBfKjMI25Jhj+PCRiOq23EkIHIdQTw42NgXV2WawgR54T8i5bSGnsNIx8dEV6aZA1VJp2eF+Vhj9isXW+fMYoabBPh6uuQ3/ARX+cwTwfaxKzUb3VE32LorTJjAJ3JkJa1YMs+Xn9D1gzvG3/Ny3+yiGfaKRfALOTfAaC00cGrvr8evxCGjAUXvRQxBQLH9XxqSr1ojrGW5BsmT+9gmPsdoE1NLttDAizFlkhBK7uAqNluQZkwadTrtPulw80lxwf1Tup7fA1sJgTDMiR6qkswPcG8EZf7/7mqR7CdMhHN41oUHRnocDnqLSJuLSoCrrgDKiZvk7S1bpXZgjzjfmuwlynLVoKb7ZBHyQaoBkcierwwB6eLj836C06fmSV7fpDILr1uKotRZsPNaFOhI/EiyBSfcQo3zSr2cPbty6Q6DK0cTWuUBxqfdrmOwxqMlJwmGVY+9okKzVcon0nZQwR4="
+cache:
+  directories:
+  - node_modules
+jobs:
+  include:
+    - stage: test
+    script:
+      - npm test
+    - stage: build
+    script:
+      - npm run build
+    - stage: deploy
+      script: skip
+      deploy:
+        provider: firebase
+        token:
+          secure: "GByJ88EbaX5zWWvYSyijrlf7ymfs+IAoNuZlFn0t4rhRrbgjKc6YEzLKcwzFe80VzjO2KzLvKqxPqpbEEXLmLPnP/K0Tj/Tr8AmaJo1LK2+pXpaOkawreq/xqbA3X1ULr+tO/igZySX89F+hMvNl1g3HzFRnGCTO2kiBwJ+d0HEWRZFoP3NozOOvHM27yzV3e3QrDJhTx6SFSSyMZiFsRRBfKjMI25Jhj+PCRiOq23EkIHIdQTw42NgXV2WawgR54T8i5bSGnsNIx8dEV6aZA1VJp2eF+Vhj9isXW+fMYoabBPh6uuQ3/ARX+cwTwfaxKzUb3VE32LorTJjAJ3JkJa1YMs+Xn9D1gzvG3/Ny3+yiGfaKRfALOTfAaC00cGrvr8evxCGjAUXvRQxBQLH9XxqSr1ojrGW5BsmT+9gmPsdoE1NLttDAizFlkhBK7uAqNluQZkwadTrtPulw80lxwf1Tup7fA1sJgTDMiR6qkswPcG8EZf7/7mqR7CdMhHN41oUHRnocDnqLSJuLSoCrrgDKiZvk7S1bpXZgjzjfmuwlynLVoKb7ZBHyQaoBkcierwwB6eLj836C06fmSV7fpDILr1uKotRZsPNaFOhI/EiyBSfcQo3zSr2cPbty6Q6DK0cTWuUBxqfdrmOwxqMlJwmGVY+9okKzVcon0nZQwR4="
