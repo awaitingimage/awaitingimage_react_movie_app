@@ -41,6 +41,7 @@ class RootContainer extends Component {
 
     return (
       <div className="App">
+        <p>Testing automated deployment!</p>
         <Select
           value={this.state.selectedOption}
           onChange={this.handleChange}
