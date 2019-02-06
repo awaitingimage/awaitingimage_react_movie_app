@@ -12,12 +12,32 @@ import {
 } from "../../reducers/movieReducer";
 import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
+import firebase from "../../firebaseSetup";
 
 class RootContainer extends Component {
   constructor(props) {
     super(props);
     this.props.fetchMovieGenres();
     this.props.fetchMovies();
+    const students = firebase.firestore().collection('students');
+
+    students.get().then(snapshot => {
+      snapshot.forEach((student) => console.log(student.data()))
+      //console.log(snapshot);
+
+
+      // students.forEach(doc => {
+    
+      //   console.log( doc.data().name );    
+      //   console.log( doc.data().mail );
+    
+      // });
+    
+    });
+
+    // students.on('value', (snapshot) => {
+    //   console.log(snapshot.val());
+    // });
   }
 
   state = {
@@ -41,7 +61,7 @@ class RootContainer extends Component {
 
     return (
       <div className="App">
-        <p>Testing automated deployment!</p>
+        <p>Testing automated deployment!123</p>
         <Select
           value={this.state.selectedOption}
           onChange={this.handleChange}
